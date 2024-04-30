@@ -1,4 +1,4 @@
-function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel)
+function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet)
 
 %%Question
 
@@ -21,6 +21,11 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 %SalesLevel==2: 70,20,10 good scenario
 %SalesLevel==3: 35,45,20 ok scenario
 %SalesLevel==4: 10,30,60 bad scenario
+
+%%Velvet
+
+%true = consider lower velvet relative sales
+%false = keep velvet relative sales equal to other products
 
 %%Set Up Linear Program
 
@@ -350,10 +355,19 @@ elseif question==6
 
     %Adjustments for Velvet Pants and Velvet Shirts
 
-    bx7=bx1-0.05; %Velvet Pants
-    cx7=cx1+0.05;
-    bx10=bx1-0.05; %Velvet Shirts
-    cx10=cx1+0.05;
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
 
     c=[profitCalculator(ax1,bx1,cx1,300,190),
         profitCalculator(ax1,bx1,cx1,450,240),
