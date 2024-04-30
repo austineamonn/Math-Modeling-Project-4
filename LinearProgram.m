@@ -29,12 +29,16 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 
 %%Set Up Linear Program
 
-if nargin<3
-    salesLevel=0; %use best case scenario levels
-    if nargin<2
-        algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
-        if nargin<1
-            question=0; %set to 'base' algorithm
+%add in inputs in case inputs are not given
+if nargin<4
+    velvet=false; %keep velvet equal to the other products
+    if nargin<3
+        salesLevel=0; %use best case scenario levels
+        if nargin<2
+            algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+            if nargin<1
+                question=0; %set to 'base' algorithm
+            end
         end
     end
 end
