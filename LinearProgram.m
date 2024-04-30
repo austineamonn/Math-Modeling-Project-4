@@ -1,4 +1,4 @@
-function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet)
+function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet,priceIncrease)
 
 %%Question
 
@@ -27,17 +27,25 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 %true = consider lower velvet relative sales
 %false = keep velvet relative sales equal to other products
 
+%%priceIncrease
+
+%increase prices by this percentage
+%decrease upper bounds for production by this percentage
+
 %%Set Up Linear Program
 
 %add in inputs in case inputs are not given
-if nargin<4
-    velvet=false; %keep velvet equal to the other products
-    if nargin<3
-        salesLevel=0; %use best case scenario levels
-        if nargin<2
-            algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
-            if nargin<1
-                question=0; %set to 'base' algorithm
+if nargin<5
+    priceIncrease=0; %do not increase prices
+    if nargin<4
+        velvet=false; %keep velvet equal to the other products
+        if nargin<3
+            salesLevel=0; %use best case scenario levels
+            if nargin<2
+                algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+                if nargin<1
+                    question=0; %set to 'base' algorithm
+                end
             end
         end
     end
@@ -299,8 +307,8 @@ elseif question==6
 
     u=[Inf;
         4000;
-        12000;
-        15000;
+        12000*(1-priceIncrease);
+        15000*(1-priceIncrease);
         Inf; %because no upper bound
         Inf;
         5500;
@@ -316,7 +324,7 @@ elseif question==6
         2800;
         3000;
         0;
-        0;
+        200; %increase so some get produced
         0;
         0;
         0];
@@ -373,17 +381,17 @@ elseif question==6
         error('velvet input is wrong')
     end
 
-    c=[profitCalculator(ax1,bx1,cx1,300,190),
-        profitCalculator(ax1,bx1,cx1,450,240),
-        profitCalculator(ax1,bx1,cx1,180,119.5),
-        profitCalculator(ax1,bx1,cx1,120,66.5),
-        profitCalculator(ax1,bx1,cx1,270,126.75),
-        profitCalculator(ax1,bx1,cx1,320,164.75),
-        profitCalculator(ax1,bx7,cx7,350,214), %Velvet Pants
-        profitCalculator(ax1,bx1,cx1,130,63.75),
-        profitCalculator(ax1,bx1,cx1,75,41.25),
-        profitCalculator(ax1,bx10,cx10,200,178), %Velvet Shirt
-        profitCalculator(ax1,bx1,cx1,120,93.3750)
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,164.75,0),
+        profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0)
         ];
 
     b=[45000;
