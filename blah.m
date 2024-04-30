@@ -263,6 +263,71 @@ elseif question==5
        0;
        0];
 
+elseif question==6
+
+    A=[3,0,0,0,0,2.5,0,0,0,0,0;
+        2,0,0,1.5,1.5,2,0,0,0,0,0;
+        0,1.5,0,0,0,0,0,0,0,0,0;
+        0,0,1.5,0.5,0,0,0,0,0,0,0;
+        0,0,0,0,2,0,0,0,0,0,1.5;
+        0,0,0,0,0,0,3,0,0,1.5,0;
+        0,0,0,0,0,0,0,1.5,0.5,0,0;
+        0,0,0,0,0,0,0,1,-1,0,0;
+        0,0,1,-1,0,0,0,0,0,0,0];
+
+    u=[Inf;
+        4000;
+        12000;
+        15000;
+        Inf; %because no upper bound
+        Inf;
+        5500;
+        Inf;
+        Inf;
+        6000;
+        Inf];
+
+    l=[4200;
+        0;
+        0;
+        0;
+        2800;
+        3000;
+        0;
+        0;
+        0;
+        0;
+        0];
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190),
+        profitCalculator(ax2,bx2,cx2,450,240),
+        profitCalculator(ax3,bx3,cx3,180,119.5),
+        profitCalculator(ax4,bx4,cx4,120,66.5),
+        profitCalculator(ax5,bx5,cx5,270,126.75),
+        profitCalculator(ax6,bx6,cx6,320,164.75),
+        profitCalculator(ax7,bx7,cx7,350,214),
+        profitCalculator(ax8,bx8,cx8,130,63.75),
+        profitCalculator(ax9,bx9,cx9,75,41.25),
+        profitCalculator(ax10,bx10,cx10,200,178),
+        profitCalculator(ax11,bx11,cx11,120,93.3750)
+        ];
+
+    %85,10,5 good
+    %70,20,10 ok
+    %35,45,20 bad
+    %10,30,60 sad
+
+
+    b=[45000;
+       28000;
+       9000;
+       18000;
+       30000;
+       20000;
+       30000;
+       0;
+       0];
+
 else
 
     error('Invalid input for question')
