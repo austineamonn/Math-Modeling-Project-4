@@ -1,11 +1,10 @@
-function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet,priceIncrease)
+function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet,priceIncrease,outlets)
 
 %%Question
 
 %0 - base algorithm
-%1,2,3,4,5 - for each question in the problem
+%1,2,3,4,5,6 - for each question in the problem
 %note that question 2 is the base algorithm
-%note that there is nothing for question 6 yet
 
 %%Algorithm
 
@@ -31,6 +30,14 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 
 %increase prices by this percentage
 %decrease upper bounds for production by this percentage
+
+%%outlets
+
+%true = Fashion Star uses outlets, all unsold products first go to outlets
+%to be sold at 60% prices. If they are not sold there then they get thrown
+%out
+%false = Fasion Star does not use outlets, all unsold products are thrown
+%out
 
 %%Set Up Linear Program
 
@@ -87,7 +94,140 @@ if question==0 || question==2
         0;
         0];
 
-    c=[-110,-210,-60.5,-53.5,-143.25,-155.25,-136,-66.25,-33.75,-22,-26.625];
+    if salesLevel==0
+
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==1
+
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==2
+
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==3
+
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==4
+
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,164.75,0),
+        profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0)
+        ];
 
     b=[45000;
        28000;
@@ -135,7 +275,140 @@ elseif question==1
         0;
         0];
 
-    c=[-110,-210,-60.5,-53.5,-143.25,-155.25,-136,-66.25,-33.75,-22,-26.625];
+    if salesLevel==0
+
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==1
+
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==2
+
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==3
+
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==4
+
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,164.75,0),
+        profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0)
+        ];
 
     b=[45000;
        28000;
@@ -185,7 +458,141 @@ elseif question==3
         0;
         1];
 
-    c=[-110,-210,-60.5,-53.5,-143.25,-155.25,-172,-66.25,-33.75,-40,-26.625, 240000];
+    if salesLevel==0
+
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==1
+
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==2
+
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==3
+
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==4
+
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,164.75,0),
+        profitCalculator(ax1,bx7,cx7,350,178,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,160,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0),
+        240000 %full cost of fabric always since you cannot return any
+        ];
 
     b=[45000;
        28000;
@@ -233,7 +640,140 @@ elseif question==4
         0;
         0];
 
-    c=[-110,-210,-60.5,-53.5,-143.25,-75.25,-172,-66.25,-33.75,-40,-26.625];
+    if salesLevel==0
+
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==1
+
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==2
+
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==3
+
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==4
+
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,244.75,0),
+        profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0)
+        ];
 
     b=[45000;
        28000;
@@ -281,7 +821,140 @@ elseif question==5
         0;
         0];
 
-    c=[-110,-210,-60.5,-53.5,-143.25,-155.25,-136,-66.25,-33.75,-22,-26.625];
+    if salesLevel==0
+
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==1
+
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==2
+
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==3
+
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    elseif salesLevel==4
+
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    if velvet
+        bx7=bx1-0.05; %Velvet Pants
+        cx7=cx1+0.05;
+        bx10=bx1-0.05; %Velvet Shirts
+        cx10=cx1+0.05;
+    elseif ~velvet
+        bx7=bx1; %Velvet Pants
+        cx7=cx1;
+        bx10=bx1; %Velvet Shirts
+        cx10=cx1;
+    else
+        error('velvet input is wrong')
+    end
+
+    c=[profitCalculator(ax1,bx1,cx1,300,190,0),
+        profitCalculator(ax1,bx1,cx1,450,240,0),
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,270,126.75,0),
+        profitCalculator(ax1,bx1,cx1,320,164.75,0),
+        profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75,0),
+        profitCalculator(ax1,bx1,cx1,75,41.25,0),
+        profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750,0)
+        ];
 
     b=[45000;
        38000;
@@ -331,33 +1004,103 @@ elseif question==6
 
     if salesLevel==0
 
-        ax1=1;
-        bx1=0;
-        cx1=0;
+        if ~outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        elseif outlets
+
+            ax1=1;
+            bx1=0;
+            cx1=0;
+
+        else
+
+            error('invalid outlet input')
+
+        end
 
     elseif salesLevel==1
 
-        ax1=.85;
-        bx1=.1;
-        cx1=.05;
+        if ~outlets
+
+            ax1=.85;
+            bx1=0;
+            cx1=.15;
+
+        elseif outlets
+
+            ax1=.85;
+            bx1=.1;
+            cx1=.05;
+
+        else
+
+            error('invalid outlet input')
+
+        end
 
     elseif salesLevel==2
 
-        ax1=.7;
-        bx1=.2;
-        cx1=.1;
+        if ~outlets
+
+            ax1=.7;
+            bx1=0;
+            cx1=.3;
+
+        elseif outlets
+
+            ax1=.7;
+            bx1=.2;
+            cx1=.1;
+
+        else
+
+            error('invalid outlet input')
+
+        end
 
     elseif salesLevel==3
 
-        ax1=.35;
-        bx1=.45;
-        cx1=.2;
+        if ~outlets
+
+            ax1=.35;
+            bx1=0;
+            cx1=.65;
+
+        elseif outlets
+
+            ax1=.35;
+            bx1=.45;
+            cx1=.2;
+
+        else
+
+            error('invalid outlet input')
+
+        end
 
     elseif salesLevel==4
 
-        ax1=.1;
-        bx1=.3;
-        cx1=.6;
+        if ~outlets
+
+            ax1=.1;
+            bx1=0;
+            cx1=.9;
+
+        elseif outlets
+
+            ax1=.1;
+            bx1=.3;
+            cx1=.6;
+
+        else
+
+            error('invalid outlet input')
+
+        end
 
     else
 
