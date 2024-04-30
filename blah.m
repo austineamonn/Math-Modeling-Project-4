@@ -1,4 +1,4 @@
-function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm)
+function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel)
 
 %%Question
 
@@ -14,11 +14,21 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm)
 %'interior-point'
 %'interior-point-legacy'
 
+%%ax1,bx1,cx1
+
+%85,10,5 good
+%70,20,10 ok
+%35,45,20 bad
+%10,30,60 sad
+
 %%Set Up Linear Program
 
-if nargin<2
-    question=0; %set to 'base' algoritm
-    algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+if nargin<5
+    salesLevel=0; %use best case scenario levels
+    if nargin<2
+        question=0; %set to 'base' algoritm
+        algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+    end
 end
 
 if question==0 || question==2
@@ -299,24 +309,55 @@ elseif question==6
         0;
         0];
 
+    if salesLevel==0
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
+
+    elseif salesLevel==1
+
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
+    elseif salesLevel==2
+
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
+    elseif salesLevel==3
+
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
+    else
+
+        error('salesLevel input is wrong')
+
+    end
+
+    %Adjustments for Velvet Pants and Velvet Shirts
+
+    bx7=bx1-0.05; %Velvet Pants
+    cx7=cx1+0.05;
+    bx10=bx1-0.05; %Velvet Shirts
+    cx10=cx1+0.05;
+
     c=[profitCalculator(ax1,bx1,cx1,300,190),
-        profitCalculator(ax2,bx2,cx2,450,240),
-        profitCalculator(ax3,bx3,cx3,180,119.5),
-        profitCalculator(ax4,bx4,cx4,120,66.5),
-        profitCalculator(ax5,bx5,cx5,270,126.75),
-        profitCalculator(ax6,bx6,cx6,320,164.75),
-        profitCalculator(ax7,bx7,cx7,350,214),
-        profitCalculator(ax8,bx8,cx8,130,63.75),
-        profitCalculator(ax9,bx9,cx9,75,41.25),
-        profitCalculator(ax10,bx10,cx10,200,178),
-        profitCalculator(ax11,bx11,cx11,120,93.3750)
+        profitCalculator(ax1,bx1,cx1,450,240),
+        profitCalculator(ax1,bx1,cx1,180,119.5),
+        profitCalculator(ax1,bx1,cx1,120,66.5),
+        profitCalculator(ax1,bx1,cx1,270,126.75),
+        profitCalculator(ax1,bx1,cx1,320,164.75),
+        profitCalculator(ax1,bx7,cx7,350,214), %Velvet Pants
+        profitCalculator(ax1,bx1,cx1,130,63.75),
+        profitCalculator(ax1,bx1,cx1,75,41.25),
+        profitCalculator(ax1,bx10,cx10,200,178), %Velvet Shirt
+        profitCalculator(ax1,bx1,cx1,120,93.3750)
         ];
-
-    %85,10,5 good
-    %70,20,10 ok
-    %35,45,20 bad
-    %10,30,60 sad
-
 
     b=[45000;
        28000;
