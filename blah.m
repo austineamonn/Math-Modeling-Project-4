@@ -14,20 +14,23 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 %'interior-point'
 %'interior-point-legacy'
 
-%%ax1,bx1,cx1
+%%SalesLevel
 
-%85,10,5 good
-%70,20,10 ok
-%35,45,20 bad
-%10,30,60 sad
+%SalesLevel==0: 100,0,1 Full Sale scenario
+%SalesLevel==1: 85,10,5 great scenario
+%SalesLevel==2: 70,20,10 good scenario
+%SalesLevel==3: 35,45,20 ok scenario
+%SalesLevel==4: 10,30,60 bad scenario
 
 %%Set Up Linear Program
 
-if nargin<5
+if nargin<3
     salesLevel=0; %use best case scenario levels
     if nargin<2
-        question=0; %set to 'base' algoritm
         algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+        if nargin<1
+            question=0; %set to 'base' algorithm
+        end
     end
 end
 
@@ -311,23 +314,29 @@ elseif question==6
 
     if salesLevel==0
 
+        ax1=1;
+        bx1=0;
+        cx1=0;
+
+    elseif salesLevel==1
+
         ax1=.85;
         bx1=.1;
         cx1=.05;
 
-    elseif salesLevel==1
+    elseif salesLevel==2
 
         ax1=.7;
         bx1=.2;
         cx1=.1;
 
-    elseif salesLevel==2
+    elseif salesLevel==3
 
         ax1=.35;
         bx1=.45;
         cx1=.2;
 
-    elseif salesLevel==3
+    elseif salesLevel==4
 
         ax1=.1;
         bx1=.3;
