@@ -15,7 +15,7 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 
 %%SalesLevel
 
-%SalesLevel==0: 100,0,1 Full Sale scenario
+%SalesLevel==0: 100,0,0 Full Sale scenario
 %SalesLevel==1: 85,10,5 great scenario
 %SalesLevel==2: 70,20,10 good scenario
 %SalesLevel==3: 35,45,20 ok scenario
@@ -35,9 +35,9 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 
 %true = Fashion Star uses outlets, all unsold products first go to outlets
 %to be sold at 60% prices. If they are not sold there then they get thrown
-%out
+%out.
 %false = Fasion Star does not use outlets, all unsold products are thrown
-%out
+%out. Essentially b=0 and whatever b was is added to c.
 
 %%boundIncrease
 
