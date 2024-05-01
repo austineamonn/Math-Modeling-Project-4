@@ -1,4 +1,4 @@
-function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet,priceIncrease,outlets)
+function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLevel,velvet,priceIncrease,outlets,boundIncrease)
 
 %%Question
 
@@ -28,8 +28,8 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 
 %%priceIncrease
 
-%increase prices by this percentage
-%decrease upper bounds for production by this percentage
+%increase prices for velvet garments by this percentage
+%decrease upper bounds for velvet garment production by this percentage
 
 %%outlets
 
@@ -39,19 +39,29 @@ function [x, fval, exitf, lag, output]=LinearProgram(question,algorithm,salesLev
 %false = Fasion Star does not use outlets, all unsold products are thrown
 %out
 
+%%boundIncrease
+
+%increase lower bounds for silk blouse and silk camisole production by this amount
+
 %%Set Up Linear Program
 
 %add in inputs in case inputs are not given
-if nargin<5
-    priceIncrease=0; %do not increase prices
-    if nargin<4
-        velvet=false; %keep velvet equal to the other products
-        if nargin<3
-            salesLevel=0; %use best case scenario levels
-            if nargin<2
-                algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
-                if nargin<1
-                    question=0; %set to 'base' algorithm
+if nargin<7
+    boundIncrease=0; %don't increase bound
+    if nargin<6
+        outlets=true; %assume using outlets
+        if nargin<5
+            priceIncrease=0; %do not increase prices
+            if nargin<4
+                velvet=false; %keep velvet equal to the other products
+                if nargin<3
+                    salesLevel=0; %use best case scenario levels
+                    if nargin<2
+                        algorithm='dual-simplex'; %set to dual simplex bc it's the default for linprog
+                        if nargin<1
+                            question=0; %set to 'base' algorithm
+                        end
+                    end
                 end
             end
         end
@@ -84,8 +94,8 @@ if question==0 || question==2
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
@@ -265,8 +275,8 @@ elseif question==1
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
@@ -447,8 +457,8 @@ elseif question==3
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
@@ -630,8 +640,8 @@ elseif question==4
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
@@ -811,8 +821,8 @@ elseif question==5
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
@@ -992,8 +1002,8 @@ elseif question==6
 
     l=[4200;
         0;
-        0;
-        0;
+        0+boundIncrease;
+        0+boundIncrease;
         2800;
         3000;
         0;
