@@ -14,6 +14,8 @@ function fashionLoop(loop,salesLevel,velvet,outlets)
 % loop = 2: loop over lower bound for x3 and x4
 % loop = 3: make outlet true and loop over how th eprecnese of outlets
 % reflects the decreased demand in a.
+% loop = 4: loop over outlet price (how much more sold in a results from no
+% outlets)
 
 
      A=[3,0,0,0,0,2.5,0,0,0,0,0;
@@ -331,7 +333,72 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             figure;
             hold on
             plot(ax1, ProfitVec, 'LineStyle','-');
+
+
+        elseif loop == 4
+            outlets = false;
+            outletPriceVec = linspace(0:.75, 100);
+            ProfitVec = zeros(1, length(outletPriceVec));
+
+            for i=1:length(outletPriceVec)
+
+                if salesLevel==1
+                    ax1=.85+(0.1*outletPriceVec(i));
+                    bx1=0;
+                    cx1=1-ax1;
+
+                elseif salesLevel==2
+                    ax1=.7+(0.2*outletPriceVec(i));
+                    bx1=0;
+                    cx1=1-ax1;
+
+                elseif salesLevel==3
+                    ax1=0.35+(0.45*outletPriceVec(i));
+                    bx1=0;
+                    cx1=1-ax1;
+
+
+                elseif salesLevel==4
+                    ax1=0.1+(0.3*outletPriceVec(i));
+                    bx1=0;
+                    cx1=1-ax1;
+
+                end
+                %Adjustments for Velvet Pants and Velvet Shirts
+                if velvet
+                    bx7=bx1-0.05; %Velvet Pants
+                    cx7=cx1+0.05;
+                    bx10=bx1-0.05; %Velvet Shirts
+                    cx10=cx1+0.05;
+                elseif ~velvet
+                    bx7=bx1; %Velvet Pants
+                    cx7=cx1;
+                    bx10=bx1; %Velvet Shirts
+                    cx10=cx1;
+                else
+                    error('velvet input is wrong')
+                end
+
+            c = [profitCalculator(ax1,bx1,cx1,300,190,0),
+                profitCalculator(ax1,bx1,cx1,450,240,0),
+                profitCalculator(ax1,bx1,cx1,180,119.5,0), 
+                profitCalculator(ax1,bx1,cx1,120,66.5,0),
+                profitCalculator(ax1,bx1,cx1,270,126.75,0),
+                profitCalculator(ax1,bx1,cx1,320,164.75,0),
+                profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
+                profitCalculator(ax1,bx1,cx1,130,63.75,0),
+                profitCalculator(ax1,bx1,cx1,75,41.25,0),
+                profitCalculator(ax1,bx10,cx10,200,178,0), %Velvet Shirt
+                profitCalculator(ax1,bx1,cx1,120,93.3750,0)];
+
+            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
+             ProfitVec(i) = -1*fval;
+            end 
+            figure;
+            hold on
+            plot(outletPriceVec, ProfitVec, 'LineStyle','-');
     end 
+
 end 
 
 
