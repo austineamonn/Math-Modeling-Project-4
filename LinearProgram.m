@@ -126,103 +126,83 @@ if question==0 || question==2
         0;
         0];
 
-    if salesLevel==0
+    if salesLevel==-1
+
+        %use ax1,bx1,cx1 that were assigned
 
         if ~outlets
 
-            ax1=1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=0;
-
-        elseif outlets
-
-            ax1=1;
-            bx1=0;
-            cx1=0;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
+        if noSalesLevel
+
+            error('You did not input ax1, bx1 or cx1. Use a different salesLevel or input these values.')
+
+        end
+
+    elseif salesLevel==0
+
+        ax1=1; %there is no no outlet scenario since all products are assumed to be sold at full price
+        bx1=0;
+        cx1=0;
+
     elseif salesLevel==1
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
 
         if ~outlets
 
-            ax1=.85;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.15;
-
-        elseif outlets
-
-            ax1=.85;
-            bx1=.1;
-            cx1=.05;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==2
 
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
         if ~outlets
 
-            ax1=.7;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.3;
-
-        elseif outlets
-
-            ax1=.7;
-            bx1=.2;
-            cx1=.1;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==3
 
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
         if ~outlets
 
-            ax1=.35;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.65;
-
-        elseif outlets
-
-            ax1=.35;
-            bx1=.45;
-            cx1=.2;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==4
 
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
         if ~outlets
 
-            ax1=.1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.9;
-
-        elseif outlets
-
-            ax1=.1;
-            bx1=.3;
-            cx1=.6;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
@@ -250,8 +230,8 @@ if question==0 || question==2
 
     c=[profitCalculator(ax1,bx1,cx1,300,190,0),
         profitCalculator(ax1,bx1,cx1,450,240,0),
-        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), %
-        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),%
+        profitCalculator(ax1,bx1,cx1,180,119.5,priceIncrease), 
+        profitCalculator(ax1,bx1,cx1,120,66.5,priceIncrease),
         profitCalculator(ax1,bx1,cx1,270,126.75,0),
         profitCalculator(ax1,bx1,cx1,320,164.75,0),
         profitCalculator(ax1,bx7,cx7,350,214,0), %Velvet Pants
@@ -307,103 +287,83 @@ elseif question==1
         0;
         0];
 
-    if salesLevel==0
+    if salesLevel==-1
+
+        %use ax1,bx1,cx1 that were assigned
 
         if ~outlets
 
-            ax1=1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=0;
-
-        elseif outlets
-
-            ax1=1;
-            bx1=0;
-            cx1=0;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
+        if noSalesLevel
+
+            error('You did not input ax1, bx1 or cx1. Use a different salesLevel or input these values.')
+
+        end
+
+    elseif salesLevel==0
+
+        ax1=1; %there is no no outlet scenario since all products are assumed to be sold at full price
+        bx1=0;
+        cx1=0;
+
     elseif salesLevel==1
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
 
         if ~outlets
 
-            ax1=.85;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.15;
-
-        elseif outlets
-
-            ax1=.85;
-            bx1=.1;
-            cx1=.05;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==2
 
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
         if ~outlets
 
-            ax1=.7;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.3;
-
-        elseif outlets
-
-            ax1=.7;
-            bx1=.2;
-            cx1=.1;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==3
 
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
         if ~outlets
 
-            ax1=.35;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.65;
-
-        elseif outlets
-
-            ax1=.35;
-            bx1=.45;
-            cx1=.2;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==4
 
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
         if ~outlets
 
-            ax1=.1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.9;
-
-        elseif outlets
-
-            ax1=.1;
-            bx1=.3;
-            cx1=.6;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
@@ -490,103 +450,83 @@ elseif question==3
         0;
         1];
 
-    if salesLevel==0
+    if salesLevel==-1
+
+        %use ax1,bx1,cx1 that were assigned
 
         if ~outlets
 
-            ax1=1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=0;
-
-        elseif outlets
-
-            ax1=1;
-            bx1=0;
-            cx1=0;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
+        if noSalesLevel
+
+            error('You did not input ax1, bx1 or cx1. Use a different salesLevel or input these values.')
+
+        end
+
+    elseif salesLevel==0
+
+        ax1=1; %there is no no outlet scenario since all products are assumed to be sold at full price
+        bx1=0;
+        cx1=0;
+
     elseif salesLevel==1
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
 
         if ~outlets
 
-            ax1=.85;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.15;
-
-        elseif outlets
-
-            ax1=.85;
-            bx1=.1;
-            cx1=.05;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==2
 
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
         if ~outlets
 
-            ax1=.7;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.3;
-
-        elseif outlets
-
-            ax1=.7;
-            bx1=.2;
-            cx1=.1;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==3
 
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
         if ~outlets
 
-            ax1=.35;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.65;
-
-        elseif outlets
-
-            ax1=.35;
-            bx1=.45;
-            cx1=.2;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==4
 
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
         if ~outlets
 
-            ax1=.1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.9;
-
-        elseif outlets
-
-            ax1=.1;
-            bx1=.3;
-            cx1=.6;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
@@ -672,103 +612,83 @@ elseif question==4
         0;
         0];
 
-    if salesLevel==0
+    if salesLevel==-1
+
+        %use ax1,bx1,cx1 that were assigned
 
         if ~outlets
 
-            ax1=1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=0;
-
-        elseif outlets
-
-            ax1=1;
-            bx1=0;
-            cx1=0;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
+        if noSalesLevel
+
+            error('You did not input ax1, bx1 or cx1. Use a different salesLevel or input these values.')
+
+        end
+
+    elseif salesLevel==0
+
+        ax1=1; %there is no no outlet scenario since all products are assumed to be sold at full price
+        bx1=0;
+        cx1=0;
+
     elseif salesLevel==1
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
 
         if ~outlets
 
-            ax1=.85;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.15;
-
-        elseif outlets
-
-            ax1=.85;
-            bx1=.1;
-            cx1=.05;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==2
 
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
         if ~outlets
 
-            ax1=.7;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.3;
-
-        elseif outlets
-
-            ax1=.7;
-            bx1=.2;
-            cx1=.1;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==3
 
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
         if ~outlets
 
-            ax1=.35;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.65;
-
-        elseif outlets
-
-            ax1=.35;
-            bx1=.45;
-            cx1=.2;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==4
 
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
         if ~outlets
 
-            ax1=.1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.9;
-
-        elseif outlets
-
-            ax1=.1;
-            bx1=.3;
-            cx1=.6;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
@@ -853,103 +773,83 @@ elseif question==5
         0;
         0];
 
-    if salesLevel==0
+    if salesLevel==-1
+
+        %use ax1,bx1,cx1 that were assigned
 
         if ~outlets
 
-            ax1=1;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=0;
-
-        elseif outlets
-
-            ax1=1;
-            bx1=0;
-            cx1=0;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
+        if noSalesLevel
+
+            error('You did not input ax1, bx1 or cx1. Use a different salesLevel or input these values.')
+
+        end
+
+    elseif salesLevel==0
+
+        ax1=1; %there is no no outlet scenario since all products are assumed to be sold at full price
+        bx1=0;
+        cx1=0;
+
     elseif salesLevel==1
+
+        ax1=.85;
+        bx1=.1;
+        cx1=.05;
 
         if ~outlets
 
-            ax1=.85;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.15;
-
-        elseif outlets
-
-            ax1=.85;
-            bx1=.1;
-            cx1=.05;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==2
 
+        ax1=.7;
+        bx1=.2;
+        cx1=.1;
+
         if ~outlets
 
-            ax1=.7;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.3;
-
-        elseif outlets
-
-            ax1=.7;
-            bx1=.2;
-            cx1=.1;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==3
 
+        ax1=.35;
+        bx1=.45;
+        cx1=.2;
+
         if ~outlets
 
-            ax1=.35;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.65;
-
-        elseif outlets
-
-            ax1=.35;
-            bx1=.45;
-            cx1=.2;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
     elseif salesLevel==4
 
+        ax1=.1;
+        bx1=.3;
+        cx1=.6;
+
         if ~outlets
 
-            ax1=.15;
+            ax1=ax1+(bx1*outletPercentage);
             bx1=0;
-            cx1=.85;
-
-        elseif outlets
-
-            ax1=.1;
-            bx1=.3;
-            cx1=.6;
-
-        else
-
-            error('invalid outlet input')
+            cx1=1-ax1;
 
         end
 
