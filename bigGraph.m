@@ -33,8 +33,8 @@ A=[3,0,0,0,0,2.5,0,0,0,0,0;
         0;
         0;
         0];
-
-        if salesLevel==0
+    
+    if salesLevel==0
 
         if ~outlets
 
@@ -199,7 +199,7 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
     % Collecting wool data
 
     woolSlackCost = 190;
-    CashmereSweaterCost = 250;
+    CashmereSweaterCost = 240;
     silkBlouseCost = 119.5;
     silkCamiCost = 66.5;
     tailSkirtCost = 126.75;
@@ -210,18 +210,18 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
     velvetShirtCost = 178;
     buttonBlouseCost = 93.3750;
 
-    woolSlackVec = linspace(.75*(-1)*woolSlackCost, 1.5*(-1)*woolSlackCost, 100);
-    CashmereSweaterVec = linspace(.75*(-1)*CashmereSweaterCost, 1.5*(-1)*CashmereSweaterCost, 100);
-    silkBlouseVec = linspace(.75*(-1)*silkBlouseCost, 1.5*(-1)*silkBlouseCost, 100);
-    silkCamiVec = linspace(.75*(-1)*silkCamiCost, 1.5*(-1)*silkCamiCost, 100);
-    tailSkirtVec = linspace(.75*(-1)*tailSkirtCost, 1.5*(-1)*tailSkirtCost, 100);
-    woolBlazerVec = linspace(.75*(-1)*woolBlazerCost, 1.5*(-1)*woolBlazerCost, 100);
+    woolSlackVec = linspace(.75*woolSlackCost, 1.5*woolSlackCost, 100);
+    CashmereSweaterVec = linspace(.75*CashmereSweaterCost, 1.5*CashmereSweaterCost, 100);
+    silkBlouseVec = linspace(.75*silkBlouseCost, 1.5*silkBlouseCost, 100);
+    silkCamiVec = linspace(.75*silkCamiCost, 1.5*silkCamiCost, 100);
+    tailSkirtVec = linspace(.75*tailSkirtCost, 1.5*tailSkirtCost, 100);
+    woolBlazerVec = linspace(.75*woolBlazerCost, 1.5*woolBlazerCost, 100);
     
-    velvetPantVec = linspace(.75*(-1)*velvetPantsCost, 1.5*(-1)*velvetPantsCost, 100);
-    cottonSweaterVec = linspace(.75*(-1)*cottonSweaterCost, 1.5*(-1)*cottonSweaterCost, 100);
-    cottonSkirtVec = linspace(.75*(-1)*cottonSkirtCost, 1.5*(-1)*cottonSkirtCost, 100);
-    velvetShirtVec = linspace(.75*(-1)*velvetShirtCost, 1.5*(-1)*velvetShirtCost, 100);
-    buttonBlouseVec = linspace(.75*(-1)*buttonBlouseCost, 1.5*(-1)*buttonBlouseCost, 100);
+    velvetPantVec = linspace(.75*velvetPantsCost, 1.5*velvetPantsCost, 100);
+    cottonSweaterVec = linspace(.75*cottonSweaterCost, 1.5*cottonSweaterCost, 100);
+    cottonSkirtVec = linspace(.75*cottonSkirtCost, 1.5*cottonSkirtCost, 100);
+    velvetShirtVec = linspace(.75*velvetShirtCost, 1.5*velvetShirtCost, 100);
+    buttonBlouseVec = linspace(.75*buttonBlouseCost, 1.5*buttonBlouseCost, 100);
 
     WoolProfitVec = zeros(1,100);
     acetateProfitVec = zeros(1,100);
@@ -231,8 +231,6 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
     velvetProfitVec = zeros(1,100);
     cottonProfitVec = zeros(1,100);
 
-
-    multiplier = linspace (.75, 1, 100);
     % wool
         for i=1:100
             c(1) =  profitCalculator(ax1,bx1,cx1,300,woolSlackVec(i),0);
@@ -303,13 +301,13 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
 
         figure;
         hold on
-        plot(xaxis, flip(WoolProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(acetateProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(cashmereProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(silkProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(rayonProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(velvetProfitVec), 'LineWidth', 3.0);
-        plot(xaxis, flip(cottonProfitVec), 'LineWidth', 3.0);
+        plot(xaxis, WoolProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, acetateProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, cashmereProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, silkProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, rayonProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, velvetProfitVec, 'LineWidth', 3.0);
+        plot(xaxis, cottonProfitVec, 'LineWidth', 3.0);
         legend('Wool', 'Acetate', 'Cashmere', 'Silk', 'Rayon', 'Velvet', 'Cotton');
 
 
