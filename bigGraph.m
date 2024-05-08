@@ -231,13 +231,15 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
     velvetProfitVec = zeros(1,100);
     cottonProfitVec = zeros(1,100);
 
+
+    multiplier = linspace (.75, 1, 100);
     % wool
         for i=1:100
             c(1) =  profitCalculator(ax1,bx1,cx1,300,woolSlackVec(i),0);
             c(6) = profitCalculator(ax1,bx1,cx1,320,woolBlazerVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            WoolProfitVec(i) = -1*fval - 2060000;
+            [~, fval1] = linprog(c, A, b, [] , [] , l, u, options);
+            WoolProfitVec(i) = -1*fval1 - 2060000;
         end 
         c=cOrg;
     % acetate
@@ -247,16 +249,16 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             c(6) = profitCalculator(ax1,bx1,cx1,320,woolBlazerVec(i),0);
             c(7) = profitCalculator(ax1,bx1,cx1,320,velvetPantVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            acetateProfitVec(i) = -1*fval - 2060000;
+            [~, fval2] = linprog(c, A, b, [] , [] , l, u, options);
+            acetateProfitVec(i) = -1*fval2 - 2060000;
         end
         c=cOrg;
      % cashmere
         for i=1:100
             c(2) =  profitCalculator(ax1,bx1,cx1,300,CashmereSweaterVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            cashmereProfitVec(i) = -1*fval - 2060000;
+            [~, fval3] = linprog(c, A, b, [] , [] , l, u, options);
+            cashmereProfitVec(i) = -1*fval3 - 2060000;
         end
         c=cOrg;
        
@@ -265,8 +267,8 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             c(3) = profitCalculator(ax1,bx1,cx1,320,silkBlouseVec(i),0);
             c(4) = profitCalculator(ax1,bx1,cx1,320,silkCamiVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            silkProfitVec(i) = -1*fval - 2060000;
+            [~, fval4] = linprog(c, A, b, [] , [] , l, u, options);
+            silkProfitVec(i) = -1*fval4 - 2060000;
         end
        c=cOrg;
       % rayon
@@ -274,8 +276,8 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             c(5) = profitCalculator(ax1,bx1,cx1,320,tailSkirtVec(i),0);
             c(11) = profitCalculator(ax1,bx1,cx1,320,buttonBlouseVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            rayonProfitVec(i) = -1*fval - 2060000;
+            [~, fval5] = linprog(c, A, b, [] , [] , l, u, options);
+            rayonProfitVec(i) = -1*fval5 - 2060000;
         end
         c=cOrg;
          % velvet
@@ -283,8 +285,8 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             c(7) = profitCalculator(ax1,bx1,cx1,320,velvetPantVec(i),0);
             c(10) = profitCalculator(ax1,bx1,cx1,320,velvetShirtVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            velvetProfitVec(i) = -1*fval - 2060000;
+            [~, fval6] = linprog(c, A, b, [] , [] , l, u, options);
+            velvetProfitVec(i) = -1*fval6 - 2060000;
         end
         c=cOrg;
         % cotton
@@ -292,8 +294,8 @@ options = optimoptions('linprog','Algorithm','dual-simplex');
             c(8) = profitCalculator(ax1,bx1,cx1,320,cottonSweaterVec(i),0);
             c(9) = profitCalculator(ax1,bx1,cx1,320,cottonSkirtVec(i),0);
 
-            [~, fval] = linprog(c, A, b, [] , [] , l, u, options);
-            cottonProfitVec(i) = -1*fval - 2060000;
+            [~, fval7] = linprog(c, A, b, [] , [] , l, u, options);
+            cottonProfitVec(i) = -1*fval7 - 2060000;
         end
    
     
