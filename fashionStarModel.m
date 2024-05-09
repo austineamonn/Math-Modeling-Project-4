@@ -51,8 +51,8 @@ elseif salesLevel==1
         cx1=.03;
     elseif outlets
         ax1=.97;
-        bx1=.025;
-        cx1=.005;
+        bx1=(1/6)*(1-ax1);
+        cx1=1-bx1-ax1;
     end
 elseif salesLevel==2
     if ~outlets
@@ -61,8 +61,8 @@ elseif salesLevel==2
         cx1=.07;
     elseif outlets
         ax1=.93;
-        bx1=.045;
-        cx1=.025;
+        bx1=(1/6)*(1-ax1);
+        cx1=1-bx1-ax1;
     end
 elseif salesLevel==3
     if ~outlets
@@ -71,8 +71,8 @@ elseif salesLevel==3
         cx1=.09;
     elseif outlets
         ax1=.91;
-        bx1=.06;
-        cx1=.03;
+        bx1=(1/6)*(1-ax1);
+        cx1=1-bx1-ax1;
     end
 elseif salesLevel==4
     if ~outlets
@@ -81,8 +81,8 @@ elseif salesLevel==4
         cx1=.11;
     elseif outlets
         ax1=.89;
-        bx1=.07;
-        cx1=.04;
+        bx1=(1/6)*(1-ax1);
+        cx1=1-bx1-ax1;
     end
 end
     
