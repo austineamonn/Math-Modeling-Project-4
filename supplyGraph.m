@@ -1,4 +1,4 @@
-function supplyGraph(lower,upper,points,outlets,ax1)
+function [WoolSlope,AcetateSlope,CashmereSlope,SilkSlope,RayonSlope,VelvetSlope,CottonSlope]=supplyGraph(lower,upper,points,outlets,ax1)
 
 %%Inputs
 
@@ -104,13 +104,13 @@ step=(upper-lower)/points; %step size calculation
 x1=floor((0.99-lower)/step); %number of steps to 0.99
 x2=floor((1.01-lower)/step); %number of steps to 1.01
 
-WoolSlope=(WoolProfVec(x2)-WoolProfVec(x1))/(2) %divide by 2 so that the
+WoolSlope=round((WoolProfVec(x2)-WoolProfVec(x1))/(2)); %divide by 2 so that the
 %slope is in percentage
-AcetateSlope=(AcetateProfVec(x2)-AcetateProfVec(x1))/(2)
-CashmereSlope=(CashmereProfVec(x2)-CashmereProfVec(x1))/(2)
-SilkSlope=(SilkProfVec(x2)-SilkProfVec(x1))/(2)
-RayonSlope=(RayonProfVec(x2)-RayonProfVec(x1))/(2)
-VelvetSlope=(VelvetProfVec(x2)-VelvetProfVec(x1))/(2)
-CottonSlope=(VelvetProfVec(x2)-VelvetProfVec(x1))/(2)
+AcetateSlope=round((AcetateProfVec(x2)-AcetateProfVec(x1))/(2));
+CashmereSlope=round((CashmereProfVec(x2)-CashmereProfVec(x1))/(2));
+SilkSlope=round((SilkProfVec(x2)-SilkProfVec(x1))/(2));
+RayonSlope=round((RayonProfVec(x2)-RayonProfVec(x1))/(2));
+VelvetSlope=round((VelvetProfVec(x2)-VelvetProfVec(x1))/(2));
+CottonSlope=round((VelvetProfVec(x2)-VelvetProfVec(x1))/(2));
 
 
