@@ -1,4 +1,4 @@
-function [x, fval] = fashionStarModel(question, salesLevel, outlets, priceIncrease, material, supplyIncrease, ax1)
+function [x, fval] = fashionStarModel(question, salesLevel, outlets, priceIncrease)
 
 % question 0: optimal sales level with no changes (outlets true or false)
 % question 1: increase velvet sales price
@@ -6,22 +6,8 @@ function [x, fval] = fashionStarModel(question, salesLevel, outlets, priceIncrea
 % question 3: Wool blazer cost increase, price increase option
 % question 4: acetate supply increase
 
-%material: The place in the matrix for each material
-%ex: Wool Material == 2
-
-if nargin<7
-    ax1=.97; %fills in for salesLevel 1
-    if nargin<6
-        supplyIncrease=10000; %fills in for exact increase from question 4
-        if nargin<5
-            material=2; %fills in for Wool Material
-        end
-    end
-end
-
-
 A = [3,0,0,0,0,2.5,0,0,0,0,0;  % Wool
-    2,0,0,1.5,1.5,2,0,0,0,0,0; % Acetate
+    2,0,0,0,1.5,1.5,2,0,0,0,0; % Acetate
     0,1.5,0,0,0,0,0,0,0,0,0;   % Cashmere
     0,0,1.5,0.5,0,0,0,0,0,0,0; % Silk
     0,0,0,0,2,0,0,0,0,0,1.5;   % Rayon  
@@ -60,35 +46,15 @@ if salesLevel==0
     cx1=0;
 elseif salesLevel==1
     if ~outlets
-        ax1=.97;
+        ax1=.95;
         bx1=0;
-        cx1=.03;
+        cx1=.05;
     elseif outlets
-        ax1=.97;
+        ax1=.95;
         bx1=(5/6)*(1-ax1);
         cx1=1-bx1-ax1;
     end
 elseif salesLevel==2
-    if ~outlets
-        ax1=.93;
-        bx1=0;
-        cx1=.07;
-    elseif outlets
-        ax1=.93;
-        bx1=(5/6)*(1-ax1);
-        cx1=1-bx1-ax1;
-    end
-elseif salesLevel==3
-    if ~outlets
-        ax1=.91;
-        bx1=0;
-        cx1=.09;
-    elseif outlets
-        ax1=.91;
-        bx1=(5/6)*(1-ax1);
-        cx1=1-bx1-ax1;
-    end
-elseif salesLevel==4
     if ~outlets
         ax1=.89;
         bx1=0;
@@ -98,16 +64,10 @@ elseif salesLevel==4
         bx1=(5/6)*(1-ax1);
         cx1=1-bx1-ax1;
     end
-else
-    if ~outlets
-        %ax1 is given
-        bx1=0;
-        cx1=1-ax1;
-    elseif outlets
-        %ax1 is given
-        bx1=(5/6)*(1-ax1);
-        cx1=1-bx1-ax1;
-    end
+  elseif salesLevel==3
+        bx1=.33;
+        cx1=.065;
+        ax1= 1-bx1-cx1;
 end
     
 c = [profitCalculator(ax1,bx1,cx1,300,190,0),      ... Wool slacks
@@ -122,18 +82,18 @@ c = [profitCalculator(ax1,bx1,cx1,300,190,0),      ... Wool slacks
      profitCalculator(ax1,bx1,cx1,200,178,0),      ... Velvet Shirt
      profitCalculator(ax1,bx1,cx1,120,93.3750,0)]; ... Button-down blouse
 
-b = [45000; % Wool ... material == 1
-     28000; % Acetate ... material == 2
-     9000;  % Cashmere ... material == 3
-     18000; % Silk ... material == 4
-     30000; % Rayon ... material == 5
-     20000; % Velvet ... material == 6
-     30000; % Cotton ... material == 7
-     0; %scrap constraints
+b = [45000; % Wool
+     28000; % Acetate
+     9000;  % Cashmere
+     18000; % Silk
+     30000; % Rayon
+     20000; % Velvet
+     30000; % Cotton
+     0;
      0];
 
 % Increase velvet shirt price
-    if question == 1 ... and sales level is something where shirts dont get produced
+    if question == 1 
 
         c(10) = profitCalculator(ax1,bx1,cx1,200,178,priceIncrease); % Velvet Shirt
         u(10) = 6000*(1-priceIncrease);   % Velvet shirt
@@ -141,28 +101,36 @@ b = [45000; % Wool ... material == 1
 
      % No velvet returns, price increase of shirt option
     elseif question == 2
-        c = [c, 240000];
-        u = [u; 1];
-        l = [l; 1];
-        A = [A,zeros(9,1)];
+
+        A(6,:) = [];
+        b(6,:) = [];
+        Aeq = [0,0,0,0,0,0,3,0,0,1.5,0];
+        beq = 20000;     
 
       % Wool blazer cost increase, price increase option
     elseif question == 3
         c(6) =  profitCalculator(ax1,bx1,cx1,320,244.75,priceIncrease); % Wool blazer
-  
-        % product supply increase
+        u(6) = 5000*(1-priceIncrease);
+        % acetate supply increase
     elseif question == 4
-        b(material) = b(material)+supplyIncrease; % new material supply
+        b(2) = 38000; % new acetate material supply
     end 
    
 
 
 options = optimoptions('linprog','Algorithm','dual-simplex');
 
-[x, fval] = linprog(c, A, b, [] , [] , l, u, options);
-fval = (-1*fval) - 860000 - (3*1200000);
+    if question == 2
+        [x, fval] = linprog(c, A, b, Aeq , beq , l, u, options);
+        fval = (-1*fval) - 860000 - (3*1200000);
+    else
+
+        [x, fval] = linprog(c, A, b, [] , [] , l, u, options);
+        fval = (-1*fval) - 860000 - (3*1200000);
+    end 
+     
 end 
 
-function [ans1]=profitCalculator(a,b,c,price,costs,priceIncrease)
-    ans1=-(price*(1+priceIncrease)*(a+0.6*b+0*c)-costs);
+function [ans]=profitCalculator(a,b,c,price,costs,priceIncrease)
+    ans=-(price*(1+priceIncrease)*(a+0.6*b+0*c)-costs);
 end
